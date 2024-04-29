@@ -16,7 +16,7 @@ from random import random
 from lxml import html, etree
 from multiprocessing import Process, Queue, Value
 from urllib.parse import urljoin, urlparse, parse_qs, quote_plus
-
+import browser_cookie3
 
 PATH = os.path.dirname(os.path.realpath(__file__))
 COOKIES_FILE = os.path.join(PATH, "cookies.json")
@@ -324,11 +324,12 @@ class SafariBooks:
         self.jwt = {}
 
         if not args.cred:
-            if not os.path.isfile(COOKIES_FILE):
-                self.display.exit("Login: unable to find `cookies.json` file.\n"
-                                  "    Please use the `--cred` or `--login` options to perform the login.")
+            # if not os.path.isfile(COOKIES_FILE):
+            #     self.display.exit("Login: unable to find `cookies.json` file.\n"
+            #                       "    Please use the `--cred` or `--login` options to perform the login.")
 
-            self.session.cookies.update(json.load(open(COOKIES_FILE)))
+            # self.session.cookies.update(json.load(open(COOKIES_FILE)))
+            self.session.cookies.update(browser_cookie3.chrome())
 
         else:
             self.display.info("Logging into Safari Books Online...", state=True)
